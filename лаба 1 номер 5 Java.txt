@@ -1,0 +1,19 @@
+import java.util.*;
+
+class fjf {
+    static Scanner reader = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int a, b, c, g;
+        a = reader.nextInt();
+        b = a / 100;
+        c = (a / 10) % 10; // Corrected to get the second digit
+        g = a % 10; // Corrected to get the last digit
+
+        if (a % 2 == 0 && (b + c + g) % 2 == 0) {
+            System.out.println("dvuznahnoe hetnoe");
+        } else {
+            System.out.println("ne hetnoe");
+        }
+    }
+}

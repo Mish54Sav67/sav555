@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int x = 0;
+        int y = 0;
+        int n = 0;
+        boolean flag = true;
+        Scanner scanner = new Scanner(System.in);
+        
+        int cl_x = Integer.parseInt(scanner.nextLine());
+        int cl_y = Integer.parseInt(scanner.nextLine());
+        String stor = scanner.nextLine();
+        int kol = Integer.parseInt(scanner.nextLine());
+        
+        while (!stor.equals("стоп")) {
+            if (cl_x == x && cl_y == y) {
+                flag = false;
+            }
+            if (stor.equals("север")) {
+                y += kol;
+                if (flag) {
+                    n++;
+                }
+            } else if (stor.equals("запад")) {
+                x -= kol;
+                if (flag) {
+                    n++;
+                }
+            } else if (stor.equals("юг")) {
+                y -= kol;
+                if (flag) {
+                    n++;
+                }
+            } else if (stor.equals("восток")) {
+                x += kol;
+                if (flag) {
+                    n++;
+                }
+            }
+            stor = scanner.nextLine();
+            if (!stor.equals("стоп")) {
+                kol = Integer.parseInt(scanner.nextLine());
+            }
+        }
+        System.out.println(n);
+        scanner.close();
+    }
+}

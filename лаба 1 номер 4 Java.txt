@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int number = scanner.nextInt();
+        int maximum = 0;
+        int road = 0;
+
+        for (int element = 0; element < number; element++) {
+            int tunnel = scanner.nextInt();
+            int m = 100000000;
+
+            for (int element_2 = 0; element_2 < tunnel; element_2++) {
+                int height = scanner.nextInt();
+                if (m > height) {
+                    m = height;
+                }
+            }
+
+            if (maximum < m) {
+                maximum = m;
+                road = road + 1;
+            }
+        }
+
+        System.out.println(road + " " + maximum);
+        scanner.close();
+    }
+}
