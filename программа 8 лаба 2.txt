@@ -1,0 +1,9 @@
+static int[,] Rotate(this int[,] array)
+{
+    int n = array.GetLength(0), m = array.GetLength(1);
+    int[,] res = new int[m,n];
+    for(int i = 0; i<n;i++)
+        for (int j = 0; j < m; j++)
+            res[j, n - i - 1] = array[i, j];
+    return res;
+}

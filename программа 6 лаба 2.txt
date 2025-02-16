@@ -1,0 +1,9 @@
+static <T extends Number> T function(T array[][]) {
+    Integer summ;
+    for (int i = 0; i < array.length; i++) {
+        for (int j = 0; j < array.length; j++) {
+            summ = summ + array[i][j]; // error
+        }
+    }
+    return summ; // error
+}
