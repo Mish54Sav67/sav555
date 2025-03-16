@@ -1,0 +1,131 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class Cinema {
+    private String name;
+    private List<Hall> halls;
+
+    public Cinema(String name) {
+        this.name = name;
+        this.halls = new ArrayList<>();
+    }
+
+    public void addHall(Hall hall) {
+        halls.add(hall);
+    }
+
+    public Session getNearestSession(String movieTitle) {
+        Session nearestSession = null;
+        for (Hall hall : halls) {
+            Session session = hall.getNearestSession(movieTitle);
+            if (session != null && (nearestSession == null || session.time.compareTo(nearestSession.time) < 0)) {
+                nearestSession = session;
+            }
+        }
+        return nearestSession;
+    }
+}
+
+class Hall {
+    private String name;
+    private int seats;
+    private List<Session> sessions;
+
+    public Hall(String name, int seats) {
+        this.name = name;
+        this.seats = seats;
+        this.sessions = new ArrayList<>();
+    }
+
+    public void addSession(Session session) {
+        sessions.add(session);
+    }
+
+    public Session getNearestSession(String movieTitle) {
+        Session nearestSession = null;
+        for (Session session : sessions) {
+            if (session.movieTitle.equals(movieTitle) && (nearestSession == null || session.time.compareTo(nearestSession.time) < 0)) {
+                nearestSession = session;
+            }
+        }
+        return nearestSession;
+    }
+}
+
+class Session {
+    public String movieTitle;
+    public int duration;
+    public String time;
+    public int availableSeats;
+
+    public Session(String movieTitle, int duration, String time) {
+        this.movieTitle = movieTitle;
+        this.duration = duration;
+        this.time = time;
+        this.availableSeats = 0;
+    }
+
+    public void setSeatConfiguration(Map<String, Integer> seatConfig) {
+        availableSeats = seatConfig.values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    public boolean sellTickets(int numTickets) {
+        if (numTickets <= availableSeats) {
+            availableSeats -= numTickets;
+            return true;
+        }
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Cinema cinema = new Cinema("MyCinema");
+        Hall hall1 = new Hall("Hall 1", 50);
+        Hall hall2 = new Hall("Hall 2", 40);
+
+        Session session1 = new Session("Movie 1", 120, "2023-11-02 16:00");
+        Map<String, Integer> seatConfig1 = new HashMap<>();
+        seatConfig1.put("A", 10);
+        seatConfig1.put("B", 10);
+        seatConfig1.put("C", 10);
+        seatConfig1.put("D", 20);
+        session1.setSeatConfiguration(seatConfig1);
+
+        Session session2 = new Session("Movie 2", 90, "2023-11-02 18:30");
+        Map<String, Integer> seatConfig2 = new HashMap<>();
+        seatConfig2.put("A", 5);
+        seatConfig2.put("B", 10);
+        seatConfig2.put("C", 10);
+        seatConfig2.put("D", 15);
+        session2.setSeatConfiguration(seatConfig2);
+
+        hall1.addSession(session1);
+        hall2.addSession(session2);
+
+        cinema.addHall(hall1);
+        cinema.addHall(hall2);
+
+        // Selling tickets
+        int numTicketsToSell = 2;
+        if (session1.sellTickets(numTicketsToSell)) {
+            System.out.println("Successfully sold " + numTicketsToSell + " ticket(s) for the session " + session1.movieTitle + ".");
+        } else {
+            System.out.println("Unfortunately, not enough available seats for the session " + session1.movieTitle + ".");
+        }
+
+        // Getting information about the nearest session of the selected movie
+        String movieTitle = "Movie 1";
+        Session nearestSession = cinema.getNearestSession(movieTitle);
+        if (nearestSession == null) {
+            System.out.println("The movie '" + movieTitle + "' is not found in the schedule.");
+        } else {
+            System.out.println("The nearest session of the movie '" + movieTitle + "':");
+            System.out.println("Cinema: " + cinema.name);
+            System.out.println("Hall: " + nearestSession.hallName);
+            System.out.println("Time: " + nearestSession.time);
+        }
+    }
+}
