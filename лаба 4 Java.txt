@@ -1,0 +1,38 @@
+package lab4;
+
+public class LibraryTest {
+    public static void main(String[] args) {
+        Library library = new Library();
+
+        Book book1 = new Book("Война и мир", "Л. Н. Толстой", 1869);
+        Book book2 = new Book("Муму", "И. С. Тургенев", 1856);
+        Book book3 = new Book("Сын полка", "В. П. Катаев", 1944);
+        Book book4 = new Book("Братья Карамазовы", "Федор Достоевский", 1880);
+        Book book5 = new Book("Тёмные аллеи", "Иван Бунин", 1944);
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+        library.addBook(book4);
+        library.addBook(book5);
+
+        System.out.println("Все книги:");
+        library.printAllBooks();
+
+        System.out.println("\nУникальные авторы:");
+        library.printUniqueAuthors();
+
+        System.out.println("\nСтатистика:");
+        library.printAuthorStatistics();
+
+        System.out.println("\nКниги Толстого:");
+        library.findBooksByAuthor("Лев Толстой").forEach(System.out::println);
+
+        System.out.println("\nКниги 1869 года:");
+        library.findBooksByYear(1869).forEach(System.out::println);
+
+        library.removeBook(book1);
+        System.out.println("\nПосле удаления:");
+        library.printAllBooks();
+    }
+}
